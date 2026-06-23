@@ -129,12 +129,12 @@ img, svg { display: block; max-width: 100%; }
 /* ---- Scroll progress (thin lime) ---- */
 .scroll-progress {
   position: fixed; top: 0; left: 0; height: 2px; width: 0;
-  background: var(--accent-strong); z-index: 60; transition: width 0.1s linear;
+  background: var(--accent-strong); z-index: 1200; transition: width 0.1s linear;
 }
 
 /* ---- Masthead ---- */
 .masthead {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 0; z-index: 1100;
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
 }
@@ -331,6 +331,29 @@ main { display: block; }
 /* "Komplette TimeStation-Tabelle"-Toggle: Zusatzzeilen erst nach Klick */
 .row-table tbody tr.lb-extra { display: none; }
 .row-table.show-all tbody tr.lb-extra { display: table-row; }
+
+/* ---- Live-Karte (Leaflet im Panda-Look) ---- */
+.live-map { border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper-2); margin-bottom: var(--sp-5); }
+.live-map__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--rule); }
+#liveMap { height: clamp(340px, 52vh, 520px); width: 100%; background: var(--paper-2); }
+.leaflet-container { font-family: var(--sans); background: var(--paper-2); }
+.leaflet-bar { border: 1px solid var(--rule); }
+.leaflet-bar a, .leaflet-bar a:hover { background: var(--paper); color: var(--ink); border-bottom-color: var(--rule); width: 30px; height: 30px; line-height: 30px; }
+.leaflet-bar a:hover { background: var(--paper-2); }
+.leaflet-control-attribution { background: rgba(252, 252, 252, 0.82); color: var(--ink-2); font-size: 10px; }
+.leaflet-control-attribution a { color: var(--link); }
+[data-theme="dark"] .leaflet-control-attribution { background: rgba(22, 22, 22, 0.82); }
+.leaflet-tooltip { font-family: var(--sans); font-size: 11px; font-weight: 600; }
+.racer-divicon { background: #fff; border: 2px solid #1a1a1a; border-radius: 50%; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); }
+.racer-divicon.rest { background: #FFBD00; }
+.racer-divicon.leader { background: var(--accent-strong); border-color: #1a1a1a; box-shadow: 0 0 0 3px rgba(222, 255, 0, 0.45); animation: mapPulse 1.8s infinite; }
+@keyframes mapPulse { 0% { box-shadow: 0 0 0 0 rgba(222, 255, 0, 0.6); } 70% { box-shadow: 0 0 0 12px rgba(222, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(222, 255, 0, 0); } }
+@media (prefers-reduced-motion: reduce) { .racer-divicon.leader { animation: none; } }
+.map-ts { background: transparent; border: 2px solid #1a1a1a; border-radius: 50%; opacity: 0.55; }
+[data-theme="dark"] .map-ts { border-color: #fff; opacity: 0.7; }
+.map-pin { display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 700; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
+.map-pin.start { background: #1a1a1a; color: #fff; }
+.map-pin.finish { background: var(--accent-strong); color: #1a1a1a; }
 
 /* ---- Records ---- */
 .records { display: grid; grid-template-columns: repeat(auto-fill, minmax(20ch, 1fr)); gap: var(--sp-4); }

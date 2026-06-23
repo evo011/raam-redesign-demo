@@ -40,6 +40,7 @@ Zusätzlich: `#strecke` mit Höhenprofil (SVG) und `#faq`.
 
 ## Features
 
+- **Interaktive Live-Karte** (Leaflet + CARTO-Tiles): Route Oceanside→Annapolis, animierte Fahrer-Marker, Start/Ziel + TimeStations, Leaderboard-Zeile klicken fokussiert den Fahrer
 - Animiertes Höhenprofil West→Ost mit TimeStation-Markern
 - Live-Leaderboard im Panda-`row-table`-Stil mit Status-Chips (Teal = unterwegs, Amber = Pause)
 - Scroll-Progress, Scroll-Spy (aktiver Nav-State in Lime), Reveal-Animationen, animierte Zähler
