@@ -78,24 +78,30 @@
   // place(nominalKm) -> latlng entlang der echten Polyline, proportional
   function place(nominalKm) { return pointAtDistance((Math.max(0, Math.min(nominalKm, NOMINAL)) / NOMINAL) * TOTAL); }
 
-  /* ---- Fahrer (identisch zum Leaderboard) ---- */
-  var RACERS = [
-    { rank: 1, name: "M. Reyes", cls: "Solo", status: "ride", km: 2910 },
-    { rank: 2, name: "L. Brandt", cls: "Solo", status: "ride", km: 2844 },
-    { rank: 3, name: "S. Novak", cls: "Solo", status: "rest", km: 2790 },
-    { rank: 4, name: "Team Velocità", cls: "4er", status: "ride", km: 3180 },
-    { rank: 5, name: "A. Okafor", cls: "Solo", status: "ride", km: 2701 },
-    { rank: 6, name: "K. Sørensen", cls: "Solo", status: "ride", km: 2655 },
-    { rank: 7, name: "Team Adler", cls: "8er", status: "ride", km: 2620 },
-    { rank: 8, name: "P. Lindqvist", cls: "Solo", status: "rest", km: 2588 },
-    { rank: 9, name: "M. Costa", cls: "Solo", status: "ride", km: 2555 },
-    { rank: 10, name: "Team Tramontana", cls: "2er", status: "ride", km: 2520 },
-    { rank: 11, name: "J. Becker", cls: "Solo", status: "ride", km: 2488 },
-    { rank: 12, name: "R. Tanaka", cls: "Solo", status: "rest", km: 2455 },
-    { rank: 13, name: "Team Phoenix", cls: "4er", status: "ride", km: 2420 },
-    { rank: 14, name: "E. Dubois", cls: "Solo", status: "ride", km: 2388 },
-    { rank: 15, name: "H. Steiner", cls: "Solo", status: "ride", km: 2355 }
-  ];
+  /* ---- Fahrer: Single Source of Truth = das Leaderboard im DOM ----
+     km, ⌀ km/h, Klasse und Status werden direkt aus der Tabelle gelesen,
+     damit Karte und Tabelle nie auseinanderlaufen (Wahrheit > schön). */
+  function deNum(s) { return parseFloat(String(s).replace(/\./g, "").replace(",", ".")) || 0; }
+  function buildRacers() {
+    var out = [];
+    document.querySelectorAll("#tracking .row-table tbody tr").forEach(function (tr, idx) {
+      var who = tr.querySelector(".who");
+      if (!who) return;
+      var nums = tr.querySelectorAll("td.num"); // [km, ⌀ km/h]
+      var rankCell = tr.querySelector(".rank");
+      var st = tr.querySelector(".status");
+      out.push({
+        name: who.textContent.replace(/[\uD800-\uDFFF]/g, "").trim(),
+        km: nums[0] ? deNum(nums[0].textContent) : 0,
+        kmh: nums[1] ? deNum(nums[1].textContent) : 22,
+        cls: tr.children[2] ? tr.children[2].textContent.trim() : "Solo",
+        status: st && st.classList.contains("rest") ? "rest" : "ride",
+        rank: rankCell ? (parseInt(rankCell.textContent, 10) || idx + 1) : idx + 1
+      });
+    });
+    return out;
+  }
+  var RACERS = buildRacers();
 
   function isDark() { return document.documentElement.getAttribute("data-theme") === "dark"; }
   var TILES = {
@@ -147,7 +153,8 @@
     markers[r.name] = { marker: m, r: r };
   });
 
-  /* ---- Live-Animation ---- */
+  /* ---- Live-Animation (Tempo aus echten ⌀ km/h, im Zeitraffer) ---- */
+  var TICK_S = 3, SPEEDUP = 25; // 3-Sekunden-Tick, 25-fach beschleunigt
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var pulseEl = document.getElementById("mapPulse");
   function flash() { if (pulseEl) { pulseEl.classList.remove("on"); void pulseEl.offsetWidth; pulseEl.classList.add("on"); } }
@@ -155,17 +162,16 @@
     Object.keys(markers).forEach(function (k) {
       var o = markers[k], r = o.r;
       if (r.status === "rest" || r.km >= NOMINAL) return;
-      // Zeitraffer-Drift: bewusst beschleunigt. Echtzeit (~24 km/h ≈ 10 m
-      // pro Tick) waere auf der Kontinent-Karte unsichtbar; hier ein
-      // ruhiges Kriechen statt eines unrealistischen Sprints.
-      var base = r.cls === "Solo" ? 0.35 : r.cls === "2er" ? 0.45 : r.cls === "4er" ? 0.55 : 0.65;
-      r.km = Math.min(NOMINAL, r.km + base + Math.random() * 0.3);
+      // Bewegung = die ECHTE ⌀ km/h aus der Tabelle, nur SPEEDUP-fach
+      // abgespielt (Echtzeit waere auf der Kontinent-Karte unsichtbar).
+      // Relative Tempi bleiben damit wahr: schnellere Fahrer ziehen davon.
+      r.km = Math.min(NOMINAL, r.km + r.kmh * TICK_S * SPEEDUP / 3600);
       o.marker.setLatLng(place(r.km));
       o.marker.setTooltipContent(tipText(r));
     });
     flash();
   }
-  if (!reduced) setInterval(step, 3000);
+  if (!reduced) setInterval(step, TICK_S * 1000);
 
   /* ---- Theme-Swap (Tiles) ---- */
   new MutationObserver(function () {
