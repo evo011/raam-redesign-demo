@@ -96,4 +96,16 @@
     }, { rootMargin: "-45% 0px -50% 0px" });
     sections.forEach(function (s) { spy.observe(s); });
   }
+
+  /* ---- Leaderboard "Komplette TimeStation-Tabelle" toggle ---- */
+  var lbToggle = document.getElementById("lbToggle");
+  if (lbToggle) {
+    lbToggle.addEventListener("click", function () {
+      var table = document.querySelector("#tracking .row-table");
+      if (!table) return;
+      var expanded = table.classList.toggle("show-all");
+      lbToggle.setAttribute("aria-expanded", String(expanded));
+      lbToggle.textContent = expanded ? "Weniger anzeigen" : "Komplette TimeStation-Tabelle";
+    });
+  }
 })();
