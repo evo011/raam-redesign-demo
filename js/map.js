@@ -155,14 +155,17 @@
     Object.keys(markers).forEach(function (k) {
       var o = markers[k], r = o.r;
       if (r.status === "rest" || r.km >= NOMINAL) return;
-      var base = r.cls === "Solo" ? 1.8 : r.cls === "2er" ? 2.4 : r.cls === "4er" ? 3.0 : 3.6;
-      r.km = Math.min(NOMINAL, r.km + base + Math.random() * 1.2);
+      // Zeitraffer-Drift: bewusst beschleunigt. Echtzeit (~24 km/h ≈ 10 m
+      // pro Tick) waere auf der Kontinent-Karte unsichtbar; hier ein
+      // ruhiges Kriechen statt eines unrealistischen Sprints.
+      var base = r.cls === "Solo" ? 0.35 : r.cls === "2er" ? 0.45 : r.cls === "4er" ? 0.55 : 0.65;
+      r.km = Math.min(NOMINAL, r.km + base + Math.random() * 0.3);
       o.marker.setLatLng(place(r.km));
       o.marker.setTooltipContent(tipText(r));
     });
     flash();
   }
-  if (!reduced) setInterval(step, 1600);
+  if (!reduced) setInterval(step, 3000);
 
   /* ---- Theme-Swap (Tiles) ---- */
   new MutationObserver(function () {
