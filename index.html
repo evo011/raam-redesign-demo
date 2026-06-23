@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Race Across America – das härteste Radrennen der Welt. 4.800 km nonstop von Küste zu Küste. Live-Tracking, Strecke, Starterfeld und Ergebnisse." />
+  <title>RAAM · Race Across America</title>
+
+  <!-- Default-Theme = Light, vor dem ersten Paint setzen (kein FOUC) -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('raam-theme');
+        document.documentElement.setAttribute('data-theme', pref === 'dark' || pref === 'light' ? pref : 'light');
+      } catch (_) { document.documentElement.setAttribute('data-theme', 'light'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ===== Masthead ===== -->
+  <header class="masthead" id="masthead">
+    <div class="masthead__inner">
+      <a class="mast-brand" href="#top" aria-label="RAAM Startseite">RAAM <em>Race Across America</em></a>
+      <nav class="mast-nav" id="mastNav" aria-label="Hauptnavigation">
+        <a href="#strecke">Strecke</a>
+        <a href="#racers">Starterfeld</a>
+        <a href="#tracking">Live-Tracking</a>
+        <a href="#ergebnisse">Ergebnisse</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Farbschema wechseln">◐ Dark</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container">
+        <span class="section-label" data-num="00">Race Across America · seit 1982</span>
+        <h1 class="reveal">Das härteste <em>Radrennen</em> der Welt.</h1>
+        <p class="dek reveal">
+          4.800&nbsp;Kilometer. Eine Etappe. Keine Pause. Vom Pazifik bis zum Atlantik –
+          die Uhr läuft durch, Tag und Nacht.
+        </p>
+        <div class="actions reveal">
+          <a href="#tracking" class="btn">Live-Tracking ansehen</a>
+          <a href="#strecke" class="btn ghost">Die Strecke entdecken</a>
+        </div>
+
+        <div class="hero-route reveal" aria-hidden="true">
+          <span class="city">Oceanside, CA</span>
+          <span class="line"></span>
+          <span class="city end">Annapolis, MD</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Stats ===== -->
+    <section class="section" aria-label="Kennzahlen">
+      <div class="container">
+        <div class="stat-strip reveal">
+          <div class="stat">
+            <div class="stat__num"><span data-count="4800">0</span><span class="unit">&nbsp;km</span></div>
+            <div class="stat__label">Distanz nonstop</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="53000">0</span><span class="unit">&nbsp;m</span></div>
+            <div class="stat__label">Höhenmeter</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="12">0</span></div>
+            <div class="stat__label">US-Bundesstaaten</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="55">0</span></div>
+            <div class="stat__label">TimeStations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Strecke ===== -->
+    <section class="section" id="strecke">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-label" data-num="01">Die Strecke</span>
+          <h2>Von Küste zu Küste in unter 8 Tagen</h2>
+          <p>Durch Wüsten, über die Rocky Mountains und die Great Plains bis an die Ostküste.
+          Das Höhenprofil zeigt, was die Racer erwartet – die TimeStations takten den Weg.</p>
+        </div>
+
+        <figure class="profile reveal" style="margin:0" aria-label="Höhenprofil der Strecke">
+          <div class="profile__chart">
+            <svg viewBox="0 0 1000 300" preserveAspectRatio="none" class="profile__svg" role="img" aria-hidden="true">
+              <g class="profile__grid">
+                <line x1="0" y1="75" x2="1000" y2="75" /><line x1="0" y1="150" x2="1000" y2="150" /><line x1="0" y1="225" x2="1000" y2="225" />
+              </g>
+              <path class="profile__area" d="M0,290 L0,265 C90,250 130,130 200,140 C250,148 270,55 340,50 C400,45 430,140 500,170 C560,195 600,200 680,195 C740,190 770,140 840,155 C900,168 940,240 1000,250 L1000,290 Z" />
+              <path class="profile__line" d="M0,265 C90,250 130,130 200,140 C250,148 270,55 340,50 C400,45 430,140 500,170 C560,195 600,200 680,195 C740,190 770,140 840,155 C900,168 940,240 1000,250" />
+            </svg>
+            <ul class="profile__markers">
+              <li style="left:0%"><span class="dot"></span><span class="m-city">Oceanside</span><span class="m-meta">0 km · Start</span></li>
+              <li style="left:20%"><span class="dot"></span><span class="m-city">Flagstaff</span><span class="m-meta">~1.000 km · 2.100 m</span></li>
+              <li style="left:34%"><span class="dot peak"></span><span class="m-city">Wolf Creek Pass</span><span class="m-meta">3.300 m · Top</span></li>
+              <li style="left:58%"><span class="dot"></span><span class="m-city">Great Plains</span><span class="m-meta">Kansas · Wind</span></li>
+              <li style="left:80%"><span class="dot"></span><span class="m-city">Appalachen</span><span class="m-meta">Steilstücke</span></li>
+              <li style="left:100%"><span class="dot end"></span><span class="m-city">Annapolis</span><span class="m-meta">4.800 km · Ziel</span></li>
+            </ul>
+          </div>
+          <figcaption class="profile__cap">Schematisches Höhenprofil · West → Ost</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Starterfeld / Racers ===== -->
+    <section class="section" id="racers">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-label" data-num="02">Starterfeld · Race Roster</span>
+          <h2>Wer am Start steht</h2>
+          <p>Solo oder im Team – fünf Klassen kämpfen gegen die Uhr und gegeneinander.</p>
+        </div>
+
+        <h3 class="tile-group-label reveal">Klassen</h3>
+        <div class="tool-tile-grid">
+          <div class="tool-tile reveal" data-kind="solo">
+            <span class="eyebrow">Solo · Königsklasse</span>
+            <h3>Solo</h3>
+            <p class="dek">Eine Person, 4.800 km, ein Schlaffenster von oft unter 90 Minuten pro Tag.</p>
+            <div class="tool-tile__foot"><span class="k">Zeitlimit</span><span class="v">12 Tage</span></div>
+          </div>
+          <div class="tool-tile reveal" data-kind="team">
+            <span class="eyebrow">Team</span>
+            <h3>2er-Team</h3>
+            <p class="dek">Zwei Fahrer:innen wechseln sich ab und halten das Rad rund um die Uhr in Bewegung.</p>
+            <div class="tool-tile__foot"><span class="k">Tempo</span><span class="v">~9 Tage</span></div>
+          </div>
+          <div class="tool-tile reveal" data-kind="team">
+            <span class="eyebrow">Team</span>
+            <h3>4er-Team</h3>
+            <p class="dek">Klassische Staffel mit zwei Pärchen – kurze, harte Schichten, hohe Schnitte.</p>
+            <div class="tool-tile__foot"><span class="k">Tempo</span><span class="v">~7 Tage</span></div>
+          </div>
+          <div class="tool-tile reveal" data-kind="team">
+            <span class="eyebrow">Team</span>
+            <h3>8er-Team</h3>
+            <p class="dek">Maximale Geschwindigkeit: Sprintschichten, Begleitfahrzeuge im Dauereinsatz.</p>
+            <div class="tool-tile__foot"><span class="k">Tempo</span><span class="v">~6 Tage</span></div>
+          </div>
+          <div class="tool-tile reveal" data-kind="para">
+            <span class="eyebrow">Para</span>
+            <h3>Hand- &amp; Para-Cycling</h3>
+            <p class="dek">Eigene Wertung für Hand- und Para-Athlet:innen – gleiche Strecke, gleiche Härte.</p>
+            <div class="tool-tile__foot"><span class="k">Wertung</span><span class="v">eigene Klasse</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Live-Tracking / TimeStation Data ===== -->
+    <section class="section" id="tracking">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-label" data-num="03">Race Coverage · Live-Tracking</span>
+          <h2>TimeStation-Daten in Echtzeit</h2>
+          <p>55 TimeStations entlang der Route melden jeden Durchgang. So siehst du, wer führt,
+          wer aufholt und wer pausiert.</p>
+        </div>
+
+        <div class="live reveal">
+          <div class="live__head">
+            <span class="live-pill"><span class="live-dot"></span>LIVE</span>
+            <span class="live__updated">Stand: TimeStation 38 · Camdenton, MO</span>
+          </div>
+          <div class="table-wrap">
+            <table class="row-table">
+              <thead>
+                <tr>
+                  <th class="rank">#</th><th>Racer</th><th class="hide-sm">Klasse</th><th>Letzte TS</th>
+                  <th class="num">km</th><th class="num hide-sm">⌀ km/h</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="rank top">1</td><td class="who">M. Reyes <span class="flag">🇺🇸</span></td><td class="hide-sm">Solo</td><td>TS 38</td><td class="num">2.910</td><td class="num hide-sm">24,8</td><td><span class="status ride">unterwegs</span></td></tr>
+                <tr><td class="rank">2</td><td class="who">L. Brandt <span class="flag">🇩🇪</span></td><td class="hide-sm">Solo</td><td>TS 37</td><td class="num">2.844</td><td class="num hide-sm">24,1</td><td><span class="status ride">unterwegs</span></td></tr>
+                <tr><td class="rank">3</td><td class="who">S. Novak <span class="flag">🇸🇮</span></td><td class="hide-sm">Solo</td><td>TS 36</td><td class="num">2.790</td><td class="num hide-sm">23,6</td><td><span class="status rest">Pause</span></td></tr>
+                <tr><td class="rank">4</td><td class="who">Team Velocità <span class="flag">🇮🇹</span></td><td class="hide-sm">4er</td><td>TS 41</td><td class="num">3.180</td><td class="num hide-sm">31,2</td><td><span class="status ride">unterwegs</span></td></tr>
+                <tr><td class="rank">5</td><td class="who">A. Okafor <span class="flag">🇬🇧</span></td><td class="hide-sm">Solo</td><td>TS 35</td><td class="num">2.701</td><td class="num hide-sm">22,9</td><td><span class="status ride">unterwegs</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="live__foot">
+            <a href="#" class="btn ghost">Komplette TimeStation-Tabelle</a>
+            <span class="live__hint">Daten beispielhaft · alle 5 Min.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ergebnisse ===== -->
+    <section class="section" id="ergebnisse">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-label" data-num="04">Race Coverage · Results</span>
+          <h2>Ergebnisse &amp; Rekorde</h2>
+          <p>Die Bestmarken, an denen sich jedes Feld misst.</p>
+        </div>
+        <div class="records">
+          <div class="record reveal"><div class="record__val">7T 15h</div><div class="record__cap">Solo Herren · Streckenrekord</div></div>
+          <div class="record reveal"><div class="record__val">8T 22h</div><div class="record__cap">Solo Damen · Streckenrekord</div></div>
+          <div class="record reveal"><div class="record__val">5T 05h</div><div class="record__cap">8er-Team · Streckenrekord</div></div>
+          <div class="record reveal"><div class="record__val">~50 %</div><div class="record__cap">Solo-Finisher-Quote</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section" id="faq">
+      <div class="container--narrow">
+        <div class="section-head reveal">
+          <span class="section-label" data-num="05">Gut zu wissen</span>
+          <h2>Häufige Fragen</h2>
+        </div>
+        <div class="faq reveal">
+          <details class="faq__item">
+            <summary>Wie unterscheidet sich RAAM von der Tour de France?</summary>
+            <p>RAAM ist kein Etappenrennen. Die Uhr läuft vom Start bis ins Ziel ununterbrochen – inklusive
+            Schlaf, Essen und Pausen. Wer ruht, verliert Zeit. Die Strecke ist zudem rund 30 % länger als die
+            Tour und wird in deutlich kürzerer Zeit gefahren.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Wie viel schlafen die Solo-Racer?</summary>
+            <p>Erstaunlich wenig. Viele Top-Solisten kommen in den ersten Tagen mit 60–90 Minuten Schlaf pro Tag
+            aus. Schlafmanagement ist eine der wichtigsten taktischen Entscheidungen des Rennens.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Was sind TimeStations?</summary>
+            <p>55 feste Kontrollpunkte entlang der Route. Jeder Durchgang wird erfasst und live veröffentlicht –
+            daraus entstehen Reihenfolge, Rückstände und Durchschnittstempo im Live-Tracking.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Kann man als Team teilnehmen?</summary>
+            <p>Ja. Neben Solo gibt es 2er-, 4er- und 8er-Teams sowie eine eigene Para-Wertung. Teams fahren im
+            Wechsel und erreichen deutlich höhere Schnitte als Solo-Starter.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta__panel reveal">
+          <h2>Bereit, dabei zu sein?</h2>
+          <p>Ob als Racer, Crew oder Fan am Streckenrand – das Abenteuer beginnt hier.</p>
+          <div class="cta__btns">
+            <a href="#" class="btn">Anmeldung &amp; Qualifikation</a>
+            <a href="#tracking" class="btn ghost">Rennen verfolgen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="footer__inner">
+      <span class="footer-brand">RAAM <em>· Race Across America</em></span>
+      <span>Konzept-Redesign 2026 · Vorlage: raceacrossamerica.org</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
